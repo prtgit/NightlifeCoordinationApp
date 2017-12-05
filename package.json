@@ -1,0 +1,14 @@
+{
+  "name": "nightlifeappserver",
+  "version": "1.0.0",
+  "description": "Server for fetching data from yelp",
+  "main": "nightlife_controller.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Prashant Tanksali",
+  "license": "ISC",
+  "dependencies": {
+    "yelp-fusion": "^1.0.4"
+  }
+}

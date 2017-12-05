@@ -1,0 +1,94 @@
+<html>
+	<head>
+		<title>Nightlife Coordination App</title>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="bootstrap.css">
+		<style>
+			.inter-row{
+				margin-top: 10px;
+			}
+		</style>
+		
+	</head>
+	<body>
+		<nav class="navbar navbar-toggleable-md navbar-light bg-primary">
+			<a class="navbar-brand" style="color: white" href="#">Nightlife App</a>
+		</nav>
+		
+		<div class="jumbotron container" style="margin: 30px 30px 30px 30px">
+			<div style="margin: 1px 30px 10px">
+				<div class="row">
+					<div class="col-xs-4"></div>
+					<div class="col-xs-4">
+						<p>Check out some places for dinner!</p>
+					</div>
+				</div>
+				<div class="row inter-row">
+					<form>
+						
+						<div class="col-md-11" >
+							<center><input id="locationBox" type="text" class="form-control" placeholder="Enter Location"></center>
+						</div>
+						<div class="col-md-1">
+							<button id = "btnyelp" class="btn bg-primary search-box-button">&#128269;</button>
+						</div>
+
+					</form>
+					
+				</div>
+				<div class="container-fluid main-container">
+					<label id="json-label">"Heres"</label>
+				</div>
+					
+				</div>
+			</div>
+		</div>
+		<button class="btn" name="Button">Button</button>
+	</body>
+	<script type="text/javascript">
+		$("#btnyelp").on("click", function(event){
+			event.preventDefault();
+			//alert("Hello");
+			var entered_location = document.getElementById("locationBox").value;
+			//alert("Bye"+entered_location);
+			$.ajax({
+				url: "http://localhost:9000",
+				data: ''+entered_location,
+				type: 'POST',
+				success: function(data) {
+			      console.log("Your request succeeded!");
+			      $("#json-label").text(data);
+			      
+			    },
+			    error: function(data) {
+			      console.log(data);
+			      console.log("Error");
+			      //alert("Hard "+data);
+			      $("#json-label").text("Error . Hard Luck!"); 
+			    }
+			});
+			/*$.ajax({
+				url: "https://api.yelp.com/v3/businesses/search?location="+entered_location,
+				headers: {
+        			Authorization: "Bearer FxNOIMVrGmaJgitLuE21sosNUtRR4DM4EkgVpk4c0alFnYYW9MCzj-LRlDraDKp8HnBrLo_BjSV8wRrUrC_HjnXyfrqq2Kcw6mQs9FHHt0iUpaaLrl6i3ybeSLQbWnYx"
+      			},
+			    type : 'POST',
+			    success: function(data) {
+			      console.log("Your request succeeded!");
+			      $("#json-label").text(data);
+			      
+			    },
+			    error: function(data) {
+			      console.log(data);
+			      console.log("Error");
+			      //alert("Hard "+data);
+			      $("#json-label").text("Error . Hard Luck!")
+
+			      
+			    }
+
+			});*/
+		});
+		
+	</script>
+</html>
