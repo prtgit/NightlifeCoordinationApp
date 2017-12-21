@@ -10,5 +10,8 @@
   "license": "ISC",
   "dependencies": {
     "yelp-fusion": "^1.0.4"
+  },
+  "scripts":{
+  	"start": "node nightlife_controller.js"
   }
 }
