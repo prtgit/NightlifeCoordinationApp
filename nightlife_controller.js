@@ -25,21 +25,6 @@ var server = http.createServer(function (req, resp) {
 		});
 		
 	}
-	/*else if(req.method == 'GET' && req.url == "/" && req.url != "/favicon.ico"){
-		
-		resp.statusCode = 200;
-		resp.setHeader('Content-type','text/html');
-		fs.readFile('test.html',function(err,html){
-			if(err){
-				throw err;
-			}
-			resp.write(html);
-			resp.end();
-
-		});
-
-	}
-	*/
 });
 server.listen(port,function(){
 	console.log("Server listening on port "+port);

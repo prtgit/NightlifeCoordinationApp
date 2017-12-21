@@ -7,15 +7,38 @@
 			.inter-row{
 				margin-top: 10px;
 			}
+					
+			img{
+				display:block; width:100%; height:auto;
+			}
+			table {
+    			border-collapse: collapse;
+			}
+
+			td {
+	    		padding-top: .8em;
+	    		padding-bottom: .8em;
+			}
+			.sticky {
+  				position: fixed;
+  				top: 0;
+  				width: 100%
+			}
+			.content {
+  				padding: 16px;
+			}
+			.sticky + .content {
+  				padding-top: 60px;
+			}
 		</style>
 		
 	</head>
 	<body>
-		<nav class="navbar navbar-toggleable-md navbar-light bg-primary">
+		<nav id="navMenu" class="navbar navbar-toggleable-md navbar-light bg-primary sticky">
 			<a class="navbar-brand" style="color: white" href="#">Nightlife App</a>
 		</nav>
 		
-		<div class="jumbotron container" style="margin: 30px 30px 30px 30px">
+		<div class="jumbotron container content" style="margin: 90px 30px 30px 30px">
 			<div style="margin: 1px 30px 10px">
 				<div class="row">
 					<div class="col-xs-4"></div>
@@ -36,14 +59,27 @@
 					</form>
 					
 				</div>
-				<div class="container-fluid main-container">
-					<label id="json-label">"Heres"</label>
+				<div class="container-fluid main-container" style="margin-top: 25px">
+					<label id="json-label"></label>
+						<div class="panel panel-primary" style="width: 100%;" id="divRestaurantList" hidden="true">
+							<div class='panel panel-heading' id="panelHeading">	
+							</div>
+							<div class="panel-body">
+								<div class="container" style="width: 100%">
+									<table width="100%" id="tableRestaurants">
+										
+									</table>
+									
+								</div>
+								
+							</div>
+							
+						</div>
 				</div>
 					
-				</div>
 			</div>
 		</div>
-		<button class="btn" name="Button">Button</button>
+		
 	</body>
 	<script type="text/javascript">
 		$("#btnyelp").on("click", function(event){
@@ -53,11 +89,29 @@
 			//alert("Bye"+entered_location);
 			$.ajax({
 				url: "http://localhost:9000",
-				data: ''+entered_location,
+				data: entered_location,
 				type: 'POST',
+				"cors": {
+        			"headers": ["Accept", "Authorization", "Content-Type", "If-None-Match", "Accept-language"]
+		        },
+		        'cache': true,
+		        dataType: 'json',
 				success: function(data) {
 			      console.log("Your request succeeded!");
-			      $("#json-label").text(data);
+			      //$("#json-label").text(JSON.stringify(data));
+			      var restaurants = JSON.parse(JSON.stringify(data));
+			      $("#divRestaurantList").show();
+			      $("#panelHeading").text("Restaurants in "+entered_location);
+			      $("#tableRestaurants").empty();
+			      for(var i=0; i<15 && i<Object.keys(restaurants.businesses).length;i++){
+			      	$("#tableRestaurants").append("<tr style='height: 30px; border-spacing: 5em; margin-top:10px;'>"+
+			      								 		"<td width='25%'><img src='"+ restaurants.businesses[i].image_url+"'></td>"+
+			      								 		"<td width='75%'><a target='_blank'style='margin-left: 20px' href='"+restaurants.businesses[i].url+"'>"+restaurants.businesses[i].name+"</a></td> "+
+			      								  "</tr>");
+
+			      }
+
+				  //$("#json-label").text(""+restaurants.businesses[0].name);  
 			      
 			    },
 			    error: function(data) {
@@ -67,27 +121,6 @@
 			      $("#json-label").text("Error . Hard Luck!"); 
 			    }
 			});
-			/*$.ajax({
-				url: "https://api.yelp.com/v3/businesses/search?location="+entered_location,
-				headers: {
-        			Authorization: "Bearer FxNOIMVrGmaJgitLuE21sosNUtRR4DM4EkgVpk4c0alFnYYW9MCzj-LRlDraDKp8HnBrLo_BjSV8wRrUrC_HjnXyfrqq2Kcw6mQs9FHHt0iUpaaLrl6i3ybeSLQbWnYx"
-      			},
-			    type : 'POST',
-			    success: function(data) {
-			      console.log("Your request succeeded!");
-			      $("#json-label").text(data);
-			      
-			    },
-			    error: function(data) {
-			      console.log(data);
-			      console.log("Error");
-			      //alert("Hard "+data);
-			      $("#json-label").text("Error . Hard Luck!")
-
-			      
-			    }
-
-			});*/
 		});
 		
 	</script>
