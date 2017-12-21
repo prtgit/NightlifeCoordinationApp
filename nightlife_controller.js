@@ -23,6 +23,21 @@ var server = http.createServer(function (req, resp) {
 				console.log(e);
 			});
 		});
+		else if(req.method == 'GET' && req.url == "/" && req.url != "/favicon.ico"){
+	 		resp.statusCode = 200;
+	 		resp.setHeader('Content-type','text/html');
+	 		fs.readFile('test.html',function(err,html){
+	 			if(err){
+	 				throw err;
+	 			}
+	 			resp.write(html);
+	 			resp.end();
+	 
+	 		});
+	 
+	 	}
+	    
+
 		
 	}
 });
